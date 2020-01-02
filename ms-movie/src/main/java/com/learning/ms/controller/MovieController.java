@@ -2,6 +2,8 @@ package com.learning.ms.controller;
 
 import com.learning.ms.model.Movie;
 import com.learning.ms.service.MovieService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +20,18 @@ public class MovieController {
     private MovieService movieService;
 
     @RequestMapping("/{movieId}")
+    @HystrixCommand(fallbackMethod = "getMovieFailOver", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000")
+    })
     public ResponseEntity<Movie> getMovie(@PathVariable Long movieId) throws Exception {
         LOGGER.info("/movies/{movieId} API invocation -> Start");
         Movie movie = movieService.getMovie(movieId);
         LOGGER.info("/movies/{movieId} API invocation -> End");
         return new ResponseEntity<>(movie, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Movie> getMovieFailOver(Long movieId) throws Exception {
+        return new ResponseEntity<>(new Movie(), HttpStatus.OK);
     }
 
     @PostMapping
