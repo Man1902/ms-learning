@@ -20,7 +20,7 @@ public class AppConfig {
         return WebClient.builder();
     }
 
-    /*@Bean
+    @Bean
     public Sampler defaultSampler() {
         return Sampler.ALWAYS_SAMPLE;
     }
