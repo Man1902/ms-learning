@@ -8,6 +8,12 @@ public class Rating {
     public Rating() { // for JSON/XML conversion
     }
 
+    public Rating(Long userId, Long movieId, int rating) {
+        this.userId = userId;
+        this.movieId = movieId;
+        this.rating = rating;
+    }
+
     public Long getUserId() {
         return userId;
     }
