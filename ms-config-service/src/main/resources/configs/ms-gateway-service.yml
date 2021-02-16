@@ -1,0 +1,46 @@
+server:
+  port: 9191
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    preferIpAddress: true
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: ms-department-service
+          uri: lb://ms-department-service     #lb: load balanced as we are using discovery service
+          predicates:
+            - Path=/api/departments/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: ms-department-service
+                fallbackuri: forward:/departmentServiceFallBack
+        - id: ms-user-service
+          uri: lb://ms-user-service
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: ms-user-service
+                fallbackuri: forward:/userServiceFallBack
+
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 4000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
