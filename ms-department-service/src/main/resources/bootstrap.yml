@@ -1,12 +1,12 @@
-  spring:
-    application:
-      name: ms-department-service
-    cloud:
-      config:
-        enabled: true
-        uri: http://localhost:8888
+spring:
+  application:
+    name: ms-department-service
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8888
 
-  # Note remaining properties will be loaded from from config-server
+# Note remaining properties will be loaded from from config-server
 
 
 

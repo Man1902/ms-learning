@@ -30,6 +30,18 @@ spring:
               args:
                 name: ms-user-service
                 fallbackuri: forward:/userServiceFallBack
+        - id: ms-movie-catalog
+          uri: lb://ms-movie-catalog
+          predicates:
+            - Path=/api/moviecatalogs/**
+        - id: ms-movie-rating
+          uri: lb://ms-movie-rating
+          predicates:
+            - Path=/api/ratings/**
+        - id: ms-movie
+          uri: lb://ms-movie
+          predicates:
+            - Path=/api/movies/**
 
 hystrix:
   command:

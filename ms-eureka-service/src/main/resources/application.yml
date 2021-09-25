@@ -1,7 +1,0 @@
-# to avoid registry of this Eureka server into another Eureka server instances
-#eureka:
-#  client:
-#    registerWithEureka: false
-#    fetchRegistry: false
-
-
